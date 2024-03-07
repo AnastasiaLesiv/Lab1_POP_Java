@@ -1,0 +1,57 @@
+import java.util.concurrent.atomic.AtomicBoolean;
+public class Main {
+    
+    private static AtomicBoolean isBreak = new AtomicBoolean(false);
+    private static int threadsNum = 3; 
+    private static int threadId = 0; 
+    private static double TimeSeconds = 5.0; 
+   
+    private static class BreakThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep((long) (TimeSeconds * 1000)); 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            isBreak.set(true);
+        }
+    }
+
+    private static class MainThread extends Thread {
+        @Override
+        public void run() {
+            int step = 2; 
+            long sum = 0; 
+            long countElement = 0; 
+            int localThreadId = threadId++;
+
+            while (!isBreak.get()) {
+                sum += step;
+                countElement++;
+            }
+
+            System.out.println("Thread " + localThreadId + ": Sum = " + sum + ", Number of elements: " + countElement);
+        }
+    }
+
+    public static void main(String[] args) {
+        BreakThread breakThread = new BreakThread();
+        breakThread.start();
+
+        Thread[] threads = new Thread[threadsNum];
+        for (int i = 0; i < threadsNum; i++) {
+            threads[i] = new MainThread();
+            threads[i].start();
+        }
+
+        try {
+            breakThread.join();
+            for (Thread thread : threads) {
+                thread.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
