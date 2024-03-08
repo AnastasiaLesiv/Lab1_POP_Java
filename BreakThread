@@ -1,13 +1,25 @@
 import java.util.concurrent.atomic.AtomicBoolean;
- private static AtomicBoolean isBreak = new AtomicBoolean(false);
-private static class BreakThread extends Thread {
-        @Override
-        public void run() {
-            try {
-                Thread.sleep((long) (TimeSeconds * 1000)); 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            isBreak.set(true);
+ class BreakThread extends Thread {
+    private static AtomicBoolean isBreak = new AtomicBoolean(false);
+    private final int seconds;
+
+     public static AtomicBoolean getIsBreak() {
+         return isBreak;
+     }
+
+
+
+     public BreakThread(int seconds) {
+         this.seconds = seconds;
+     }
+
+     @Override
+    public void run() {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        isBreak.set(true);
     }
+}
