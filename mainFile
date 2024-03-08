@@ -1,20 +1,18 @@
-import java.util.concurrent.atomic.AtomicBoolean;
+
 public class Main {
-    
-   
-    private static int threadsNum = 3; 
-    private static int threadId = 0; 
-    private static double TimeSeconds = 5.0; 
-   
+
+    private static final int threadsNum = 3;
+    private static final int timeSeconds = 5;
+
     public static void main(String[] args) {
-        BreakThread breakThread = new BreakThread();
+        BreakThread breakThread = new BreakThread(timeSeconds);
         breakThread.start();
 
         Thread[] threads = new Thread[threadsNum];
         for (int i = 0; i < threadsNum; i++) {
-            threads[i] = new MainThread();
+            threads[i] = new MainThread(i);
             threads[i].start();
         }
 
-           }
+    }
 }
