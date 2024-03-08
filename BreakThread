@@ -1,4 +1,5 @@
- private static class BreakThread extends Thread {
+import java.util.concurrent.atomic.AtomicBoolean;
+private static class BreakThread extends Thread {
         @Override
         public void run() {
             try {
