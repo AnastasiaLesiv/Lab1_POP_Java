@@ -16,13 +16,5 @@ public class Main {
             threads[i].start();
         }
 
-        try {
-            breakThread.join();
-            for (Thread thread : threads) {
-                thread.join();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+           }
 }
