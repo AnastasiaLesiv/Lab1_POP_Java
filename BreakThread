@@ -1,4 +1,5 @@
 import java.util.concurrent.atomic.AtomicBoolean;
+ private static AtomicBoolean isBreak = new AtomicBoolean(false);
 private static class BreakThread extends Thread {
         @Override
         public void run() {
